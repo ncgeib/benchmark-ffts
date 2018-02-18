@@ -1,0 +1,14 @@
+Mean Error Complex FFT (Non-Primes)
+numpy-1.13.3         2.13500841097e-15
+numpy-fixed-double   1.95203349911e-16
+numpy-fixed-long     1.84254578137e-16
+pyfftw               1.81835946067e-16
+scipy                2.41939597429e-16
+
+Mean Error Real FFT (Non-Primes)
+numpy-1.13.3         8.37809877576e-16
+numpy-fixed-double   1.85383399782e-16
+numpy-fixed-long     1.78539011958e-16
+pyfftw               1.78607230131e-16
+scipy                1.9423116726e-16
+
