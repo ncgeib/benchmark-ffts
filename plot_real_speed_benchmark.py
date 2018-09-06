@@ -41,26 +41,24 @@ for k in sorted(results.keys()):
     lc1, = ax1.plot(n[f], v['real'][f], **kwargs)
     lc2, = ax2.plot(n[f2], v['real'][f2], **kwargs)
     lc3, = ax3.plot(n[fp], v['real'][fp], **kwargs)
-    if k != 'pyfftw':
-        # the primes do not require twiddle factors
-        lc4, = ax4.plot(n[~fp], s[~fp], **kwargs)
+#    if k != 'pyfftw':
+#        # the primes do not require twiddle factors
+#        lc4, = ax4.plot(n[~fp], s[~fp], **kwargs)
     i += 1
 
 ax1.set_title('Power of Two')
 ax2.set_title('Regular Numbers')
 ax3.set_title('Primes')
-ax4.set_title('Twiddle Creation Time')
+#ax4.set_title('Twiddle Creation Time')
 
-for ax in axs.flat:
+for ax in axs.flat[:-1]:
     ax.set_yscale('log')
     ax.set_xscale('log', basex=2)
     ax.set_ylabel('runtime [s]')
     ax.grid()
     ax.set_xlabel('array size')
-ax4.set_ylabel('first runtime - best runtime [s]')
-#ax1.set_ylim((8e-17, 2e-15))
-ax1.legend(loc='best')
-ax4.legend(loc='best')
+    ax.legend(loc='best')
+#ax4.set_ylabel('first runtime - best runtime [s]')
 fig.suptitle('Runtime Real FFT')
 fig.tight_layout()
 fig.subplots_adjust(top=0.92)

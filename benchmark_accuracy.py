@@ -3,11 +3,11 @@ import os
 from pathlib import Path
 
 # Path to a separate development version of numpy with fixes
-DEV_NUMPY = '~/sources/numpy/'
+DEV_NUMPY = '/home/nils/sources/numpy/'
 
 # a little bit of a hack to import different versions of NumPy
 fft = sys.argv[1]
-if 'fixed' in fft:
+if 'pocketfft' in fft:
     sys.path.insert(0, DEV_NUMPY)
 
 # other imports (which could possibly import numpy)
@@ -22,7 +22,11 @@ from lib import l2error, l1error, linferror, scipy_rfft
 # 2 - identity complex FFT - e.g. ifft(fft(x))
 # 3 - forward real FFT
 # 4 - identity real FFT - e.g. irfft(rfft(x))
-if 'numpy' in fft:
+if 'pocketfft' in fft:
+    from numpy.fft import pocketfft as pfft
+    routines = (pfft.fft, lambda x: pfft.ifft(pfft.fft(x)),
+                pfft.rfft, lambda x: pfft.irfft(pfft.rfft(x)))
+elif 'numpy' in fft:
     routines = (np.fft.fft, lambda x: np.fft.ifft(np.fft.fft(x)),
                 np.fft.rfft, lambda x: np.fft.irfft(np.fft.rfft(x)))
 elif fft == 'scipy':
@@ -32,6 +36,7 @@ elif fft == 'scipy':
                 lambda x: scipy.fftpack.irfft(scipy.fftpack.rfft(x)))
 elif fft == 'pyfftw':
     import pyfftw.interfaces.numpy_fft as pyfftw
+    print('Importing', pyfftw.__file__)
     routines = (pyfftw.fft, lambda x: pyfftw.ifft(pyfftw.fft(x)),
                 pyfftw.rfft, lambda x: pyfftw.irfft(pyfftw.rfft(x)))
 

@@ -3,10 +3,12 @@
 import time
 import numpy as np
 import scipy.fftpack
-import gmpy2 #  much faster than using mpmath
-context = gmpy2.get_context()
-context.precision = 512 #  bits - should be very safe, one could reduce that
-
+try:
+    import gmpy2 #  much faster than using mpmath
+    context = gmpy2.get_context()
+    context.precision = 512 #  bits - should be very safe, one could reduce that
+except:
+    pass
 
 def exact_fft(x, debug=False):
     ''' Calculates the exact DFT using gmpy2

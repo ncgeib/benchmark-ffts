@@ -38,28 +38,29 @@ for k in sorted(results.keys()):
     fp = lib.is_prime(n)
     # the non-power of two, non-primes -> regular (or Hamming) numbers
     f2 = ~(f | fp)
-    lc1, = ax1.plot(n[f], v['complex'][f], **kwargs)
-    lc2, = ax2.plot(n[f2], v['complex'][f2], **kwargs)
-    lc3, = ax3.plot(n[fp], v['complex'][fp], **kwargs)
-    if k != 'pyfftw':
-        lc4, = ax4.plot(n[~fp], s[~fp], **kwargs)
+    key = 'complex'
+    lc1, = ax1.plot(n[f], v[key][f], **kwargs)
+    lc2, = ax2.plot(n[f2], v[key][f2], **kwargs)
+    lc3, = ax3.plot(n[fp], v[key][fp], **kwargs)
+#    if k != 'pyfftw':
+#        lc4, = ax4.plot(n[~fp], s[~fp], **kwargs)
     i += 1
 
 ax1.set_title('Power of Two')
 ax2.set_title('Regular Numbers')
 ax3.set_title('Primes')
-ax4.set_title('Twiddle Creation Time')
+#ax4.set_title('Twiddle Creation Time')
 
-for ax in axs.flat:
+for ax in axs.flat[:-1]:
     ax.set_yscale('log')
     ax.set_xscale('log', basex=2)
     ax.set_ylabel('runtime [s]')
     ax.grid()
+    ax.legend(loc='best')
     ax.set_xlabel('array size')
-ax4.set_ylabel('first runtime - best runtime [s]')
+#ax4.set_ylabel('first runtime - best runtime [s]')
 #ax1.set_ylim((8e-17, 2e-15))
-ax1.legend(loc='best')
-ax4.legend(loc='best')
+#ax4.legend(loc='best')
 fig.suptitle('Runtime Complex FFT')
 fig.tight_layout()
 fig.subplots_adjust(top=0.92)

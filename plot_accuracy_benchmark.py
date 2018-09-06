@@ -59,10 +59,11 @@ for ax in axs.flat:
     ax.set_ylabel(r'$L_2$ error of $\mathcal{F}[x_n]$')
     ax.grid()
     ax.set_xlabel('array size')
+    ax.legend(loc='best')
 ax4.set_ylabel(r'$L_2$ error of $\mathcal{F}^{-1}[\mathcal{F}[x_n]]$')
 #ax1.set_ylim((8e-17, 2e-15))
-ax1.legend(loc='best')
-fig.suptitle('Complex FFT')
+
+fig.suptitle('Accuracy Complex FFT')
 fig.tight_layout()
 fig.subplots_adjust(top=0.92)
 if save:

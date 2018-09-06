@@ -5,11 +5,11 @@ import importlib
 from pathlib import Path
 
 # Path to a separate development version of numpy with fixes
-DEV_NUMPY = '~/sources/numpy/'
+DEV_NUMPY = '/home/nils/sources/numpy/'
 
 # a little bit of a hack to import different versions of NumPy
 fft = sys.argv[1]
-if 'fixed' in fft:
+if 'pocketfft' in fft:
     sys.path.insert(0, DEV_NUMPY)
 
 # other imports (which could possibly import numpy)
@@ -17,7 +17,6 @@ import h5py
 import config
 import numpy as np
 import scipy.fftpack
-import pyfftw
 from lib import l2error, l1error, linferror, scipy_rfft
 
 np.random.seed(config.SPEED_SEED)
@@ -25,6 +24,7 @@ np.random.seed(config.SPEED_SEED)
 results = {fft: {'sizes': [], 'complex': [], 'real': [],
            'complex_init': [], 'real_init': []}}
 
+print('Importing', np.__file__)
 
 def numpy_clear_cache(x):
     # hacky but seems to work...
@@ -34,7 +34,6 @@ def numpy_clear_cache(x):
         pass
     while fftpack._real_fft_cache.pop_twiddle_factors(n) is not None:
         pass
-
 
 def scipy_clear_cache(x):
     import scipy.fftpack._fftpack as sff
@@ -76,6 +75,7 @@ for N in config.SPEED_SIZES:
           1.0j * np.random.uniform(-0.5, 0.5, N))
     ra = np.random.uniform(-0.5, 0.5, N)
     if 'pyfftw' in fft:
+        import pyfftw
         ca = pyfftw.byte_align(ca)
         ra = pyfftw.byte_align(ra)
         ra2 = pyfftw.empty_aligned(ra.shape[0]//2+1, np.complex128)
@@ -88,7 +88,12 @@ for N in config.SPEED_SIZES:
         time_real = time_operation(cfft.execute, N2)
         time_complex = time_operation(rfft.execute, N2)
     else:
-        if 'numpy' in fft:
+        if 'pocketfft' in fft:
+            from numpy.fft import pocketfft
+            rfftfun = pocketfft.rfft
+            fftfun = pocketfft.fft
+            cc = None
+        elif 'numpy' in fft:
             rfftfun = np.fft.rfft
             fftfun = np.fft.fft
             cc = numpy_clear_cache
