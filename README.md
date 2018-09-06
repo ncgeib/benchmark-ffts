@@ -18,7 +18,7 @@ The accuracy benchmark can be performed by running
 ```
 python benchmark_accuracy.py numpy
 ```
-where `numpy` can be a string containing `numpy`, `scipy` or `pyfftw` in which case the corresponding packages will be benchmarked and a file with the full label (e.g. `numpy-1.13.3`) will be created in `accuracy_results`. As a treat if you specify `fixed` in a label (e.g. `numpy-fixed`) it will load a numpy version from a path specified in the script (nice for testing against development versions).
+where `numpy` can be a string containing `numpy`, `scipy` or `pyfftw` in which case the corresponding packages will be benchmarked and a file with the full label (e.g. `numpy-1.13.3`) will be created in `accuracy_results`. As a treat if you specify `pocketfft` in a label (e.g. `numpy-pocketfft`) it will load a numpy version from a path specified in the script (nice for testing against development versions).
 
 The speed benchmark can be performed by running
 ```
@@ -33,7 +33,7 @@ python plot[_real]_speed_benchmark.py [save]
 ```
 
 ## Results
-I looked at the results of NumPy 1.13.3, SciPy and pyfftw. Additionally I created a version of NumPy with correct constants and a more accurate calculation of the twiddle factors. One version calculated the twiddle factors in double precision (`numpy-fixed-double`) and one in extended precision (`numpy-fixed-long`).
+I looked at the results of NumPy 1.15.0, SciPy and pyfftw. Additionally I created a version of NumPy with the proposed pocketfft library (see PR at https://github.com/numpy/numpy/pull/11888) and included it under the label 'numpy-pocketfft'.
 
 [Complex FFT Accuracy](result_plots/accuracy_complex.png)
 [Real FFT Accuracy](result_plots/accuracy_real.png)
